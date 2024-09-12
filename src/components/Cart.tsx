@@ -20,8 +20,8 @@ import CartItem from './CartItem'
 import { useEffect, useState } from 'react'
 
 const Cart = () => {
-//   const { items } = useCart()
-//   const itemCount = items.length
+  // const { items } = useCart();
+  // const itemCount = items.length
   const itemCount = 2;
 
   const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -30,10 +30,10 @@ const Cart = () => {
     setIsMounted(true)
   }, [])
 
-//   const cartTotal = items.reduce(
-//     (total, { product }) => total + product.price,
-//     0
-//   )
+  // const cartTotal = items.reduce(
+  //   (total, { product }) => total + product.price,
+  //   0
+  // )
 
   const fee = 1
 
@@ -49,20 +49,20 @@ const Cart = () => {
         </span>
       </SheetTrigger>
       <SheetContent className='flex w-full flex-col pr-0 sm:max-w-lg'>
-        <SheetHeader className='space-y-2.5 pr-6'>
-          {/* <SheetTitle>Cart ({itemCount})</SheetTitle> */}
+        <SheetHeader className='space- y-2.5 pr-6'>
+          <SheetTitle>Cart ({itemCount})</SheetTitle>
         </SheetHeader>
         {itemCount > 0 ? (
           <>
             <div className='flex w-full flex-col pr-6'>
-              <ScrollArea>
-                {/* {items.map(({ product }) => (
+              {/* <ScrollArea>
+                {items.map(({ product }) => (
                   <CartItem
                     product={product}
                     key={product.id}
                   />
-                ))} */}
-              </ScrollArea>
+                ))}
+              </ScrollArea> */}
             </div>
             <div className='space-y-4 pr-6'>
               <Separator />
@@ -79,9 +79,9 @@ const Cart = () => {
                 </div>
                 <div className='flex'>
                   <span className='flex-1'>Total</span>
-                  <span>
-                    {/* {formatPrice(cartTotal + fee)} */}
-                  </span>
+                  {/* <span>
+                    {formatPrice(cartTotal + fee)}
+                  </span> */}
                 </div>
               </div>
 

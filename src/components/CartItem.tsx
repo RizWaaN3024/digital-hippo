@@ -8,7 +8,7 @@ import Image from 'next/image'
 const CartItem = ({ product }: { product: any }) => {
   const { image } = product.images[0]
 
-//   const { removeItem } = useCart()
+  // const { removeItem } = useCart()
 
   const label = PRODUCT_CATEGORIES.find(
     ({ value }) => value === product.category
