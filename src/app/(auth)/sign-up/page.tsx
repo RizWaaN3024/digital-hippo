@@ -2,8 +2,8 @@
 
 import { Icons } from '@/components/Icons'
 import {
-    Button,
-    buttonVariants,
+  Button,
+  buttonVariants,
 } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -14,26 +14,59 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 
 import {
-    AuthCredentialsValidator,
-    TAuthCredentialsValidator,
+  AuthCredentialsValidator,
+  TAuthCredentialsValidator,
 } from '@/lib/validators/account-credentials-validator'
 import { trpc } from '@/trpc/client'
-// import { trpc } from '@/trpc/client'
-
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { ZodError } from 'zod'
 
 const Page = () => {
+  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TAuthCredentialsValidator>({
+    resolver: zodResolver(AuthCredentialsValidator),
+  })
+    // console.log(data);
+  const { mutate, isLoading } =
+    trpc.auth.createPayloadUser.useMutation({
+      onError: (err) => {
+        if (err.data?.code === 'CONFLICT') {
+          toast.error(
+            'This email is already in use. Sign in instead?'
+          )
 
-    const { register, handleSubmit, formState: {errors} } = useForm<TAuthCredentialsValidator>({
-        resolver: zodResolver(AuthCredentialsValidator),
+          return
+        }
+
+        if (err instanceof ZodError) {
+          toast.error(err.issues[0].message)
+
+          return
+        }
+
+        toast.error(
+          'Something went wrong. Please try again.'
+        )
+      },
+      onSuccess: ({ sentToEmail }) => {
+        toast.success(
+          `Verification email sent to ${sentToEmail}.`
+        )
+        router.push('/verify-email?to=' + sentToEmail)
+      },
     })
 
-    const { data } = trpc.anyApiRoute.useQuery()
-    console.log(data)
-
-    const onSubmit = ({ email, password}: TAuthCredentialsValidator) => {
-        // Send data to the server
-
-    }
+  const onSubmit = ({
+    email,
+    password,
+  }: TAuthCredentialsValidator) => {
+    mutate({ email, password })
+  }
 
   return (
     <>
@@ -94,7 +127,7 @@ const Page = () => {
                   )}
                 </div>
 
-                <Button>Sign up</Button>
+                <Button type='submit'>Sign up</Button>
               </div>
             </form>
           </div>
