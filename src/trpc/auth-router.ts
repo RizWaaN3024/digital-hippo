@@ -35,17 +35,38 @@ export const authRouter = router({
         .query(async ({ input }) => {
             const { token } = input
 
-            const payload = await getPlayloadClient()
+            const payload = await getPlayloadClient();
 
             const isVerified = await payload.verifyEmail({
                 collection: 'users',
                 token,
             })
 
-            if (!isVerified) {
+            if (!isVerified)
                 throw new TRPCError({ code: 'UNAUTHORIZED' })
 
-                return { success: true}
-            }
-        })
+            return { success: true}
+        }),
+
+        signIn: publicProcedure
+            .input(AuthCredentialsValidator)
+            .mutation(async ({ input, ctx }) => {
+                const { email, password } = input
+                const { res } = ctx
+                const payload = await getPlayloadClient()
+
+                try {
+                    await payload.login({
+                        collection: "users",
+                        data: {
+                            email,
+                            password,
+                        },
+                        res
+                    })
+                    return {success: true}
+                } catch (err) {
+                    throw new TRPCError({ code: 'UNAUTHORIZED' })
+                }
+            })
 })

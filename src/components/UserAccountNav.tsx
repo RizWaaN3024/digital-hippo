@@ -1,6 +1,6 @@
 'use client'
 
-// import { User } from '@/payload-types'
+import { User } from '@/payload-types'
 import { Button } from './ui/button'
 import {
   DropdownMenu,
@@ -10,10 +10,10 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import Link from 'next/link'
-// import { useAuth } from '@/hooks/use-auth'
+import { useAuth } from '@/hooks/use-auth'
 
-const UserAccountNav = ({ user }: { user: any }) => {
-  // const { signOut } = useAuth()
+const UserAccountNav = ({ user }: { user: User }) => {
+  const { signOut } = useAuth()
 
   return (
     <DropdownMenu>
@@ -46,7 +46,7 @@ const UserAccountNav = ({ user }: { user: any }) => {
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          // onClick={signOut}
+          onClick={signOut}
           className='cursor-pointer'>
           Log out
         </DropdownMenuItem>
