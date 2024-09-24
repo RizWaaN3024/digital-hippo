@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORIES } from "@/config";
+import { PRODUCT_CATEGORIES } from "../../config";
 import { CollectionConfig } from "payload/types";
 
 export const Products: CollectionConfig = {
@@ -38,14 +38,14 @@ export const Products: CollectionConfig = {
             ),
             required: true
         },
-        {
-            name: 'product_files',
-            label: 'Product file(s)',
-            type: 'relationship',
-            required: true,
-            relationTo: 'product_files',
-            hasMany: false,
-        },
+        // {
+        //     name: 'product_files',
+        //     label: 'Product file(s)',
+        //     type: 'relationship',
+        //     required: true,
+        //     relationTo: 'product_files',
+        //     hasMany: false,
+        // },
         {
             name: 'approvedForSale',
             label: 'Product STatus',
