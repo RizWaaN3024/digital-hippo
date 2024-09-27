@@ -1,6 +1,22 @@
+import { User } from "../payload-types";
 import { WidthIcon } from "@radix-ui/react-icons";
-import { CollectionConfig } from "payload/types";
+import { Access, CollectionConfig } from "payload/types";
 
+
+const isAdminorHasAccessToImages = (): Access => async ({
+    req
+}) =>  {
+    const user = req.user as User | undefined
+
+    if (!user) return false;
+    if (user.role === 'admin') return true;
+
+    return {
+        user: {
+            equals: req.user.id,
+        },
+    }
+}
 export const Media: CollectionConfig = {
     slug: "media",
     hooks: {
@@ -17,8 +33,10 @@ export const Media: CollectionConfig = {
                 return true
             }
 
-            return await isAdminorHasAccessToImages()
-        }
+            return await isAdminorHasAccessToImages()({ req })
+        },
+        delete: isAdminorHasAccessToImages(),
+        update: isAdminorHasAccessToImages(),
     },
     admin: {
         hidden: ({ user }) => user.role !== 'admin,'
@@ -45,7 +63,8 @@ export const Media: CollectionConfig = {
                 height: undefined,
                 position: 'centre',
             },
-        ]
+        ],
+        mimeTypes: ['image/']
     },
     fields: [
         {
