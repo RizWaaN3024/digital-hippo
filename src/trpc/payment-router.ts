@@ -2,6 +2,7 @@ import { z } from "zod";
 import { PrivateProcedure, router } from "./trpc";
 import { TRPCError } from "@trpc/server";
 import { getPayloadClient } from "../get-payload";
+import { stripe } from "../lib/stripe";
 
 
 
@@ -26,5 +27,13 @@ export const paymentRouter = router({
                     }
                 }
             })
+
+            try {
+                const stripeSession = await stripe.checkout.sessions.create({
+                    success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}`
+                })
+            } catch (error) {
+                
+            }
         })
 })
