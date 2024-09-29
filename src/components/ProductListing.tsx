@@ -1,7 +1,7 @@
 "use client"
 
 import { Product } from '@/payload-types';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Skeleton } from './ui/skeleton';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -13,6 +13,14 @@ interface ProductListingProps {
 
 const ProductListing = ({product, index}: ProductListingProps) => {
     const [isVisible, setIsvisible] = useState<boolean>(false);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsvisible(true);
+        }, index * 75)
+
+        return () => clearTimeout(timer)
+    }, [index])
 
     if (!product || !isVisible) return <ProductPlaceholder />
 
