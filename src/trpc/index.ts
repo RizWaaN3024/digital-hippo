@@ -2,7 +2,7 @@ import { z } from "zod";
 import { authRouter } from "./auth-router";
 import { publicProcedure, router } from "./trpc";
 import { QueryValidator } from "../lib/validators/query-validator";
-import { getPlayloadClient } from "../get-payload";
+import { getPayloadClient } from "../get-payload";
 
 export const appRouter = router({
     auth: authRouter,
@@ -17,7 +17,7 @@ export const appRouter = router({
         const {sort, limit, ...queryOpts} = query
 
         // To interact with the database we need to get the client
-        const payload = await getPlayloadClient()
+        const payload = await getPayloadClient()
 
         const parsedQueryOpts: Record<string, {equals: string}> = {}
 

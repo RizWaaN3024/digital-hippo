@@ -1,6 +1,6 @@
 import { AuthCredentialsValidator } from "../lib/validators/account-credentials-validator";
 import { publicProcedure, router } from "./trpc";
-import { getPlayloadClient } from "../get-payload";
+import { getPayloadClient } from "../get-payload";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import payload from "payload";
@@ -8,7 +8,7 @@ export const authRouter = router({
     createPayloadUser: publicProcedure.input(AuthCredentialsValidator)
     .mutation(async({input}) => {
         const { email, password } = input
-        const payload = await getPlayloadClient()
+        const payload = await getPayloadClient()
         const { docs:users } = await payload.find({
             collection: "users",
             where: {
@@ -35,7 +35,7 @@ export const authRouter = router({
         .query(async ({ input }) => {
             const { token } = input
 
-            const payload = await getPlayloadClient();
+            const payload = await getPayloadClient();
 
             const isVerified = await payload.verifyEmail({
                 collection: 'users',
@@ -53,7 +53,7 @@ export const authRouter = router({
             .mutation(async ({ input, ctx }) => {
                 const { email, password } = input
                 const { res } = ctx
-                const payload = await getPlayloadClient()
+                const payload = await getPayloadClient()
 
                 try {
                     await payload.login({

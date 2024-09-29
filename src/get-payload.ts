@@ -30,7 +30,7 @@ interface Args {
     initOptions?: Partial<InitOptions>
 }
 
-export const getPlayloadClient = async ({initOptions}: Args = {}): Promise<Payload> => {
+export const getPayloadClient = async ({initOptions}: Args = {}): Promise<Payload> => {
     if(!process.env.PAYLOAD_SECRET) {
         throw new Error("Payload Secret is missing")
     }
