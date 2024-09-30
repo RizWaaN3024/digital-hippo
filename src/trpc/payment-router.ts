@@ -4,8 +4,6 @@ import { TRPCError } from "@trpc/server";
 import { getPayloadClient } from "../get-payload";
 import { stripe } from "../lib/stripe";
 
-
-
 export const paymentRouter = router({
     createSession: PrivateProcedure
         .input(z.object({ productIds: z.array(z.string()) }))
