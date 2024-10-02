@@ -1,16 +1,27 @@
+import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { PRODUCT_CATEGORIES } from "../../config";
 import { CollectionConfig } from "payload/types";
+import { Product } from "../../../payload-types";
+
+const addUser: BeforeChangeHook<Product> = async ({req, data}) => {
+    const user = req.user
+
+    return {...data, user: user.id}
+}
 
 export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
         useAsTitle: 'name',
-    }, 
+    },
     access: {},
+    hooks: {
+        beforeChange: [addUser],
+    },
     fields: [
         {
             name: 'user',
-            type:   'relationship',
+            type: 'relationship',
             relationTo: 'users',
             required: true,
             hasMany: false,
@@ -28,7 +39,7 @@ export const Products: CollectionConfig = {
             name: 'description',
             type: 'textarea',
             label: 'Product details'
-        }, 
+        },
         {
             name: 'category',
             label: 'Category',
@@ -74,28 +85,28 @@ export const Products: CollectionConfig = {
         {
             name: 'priceId',
             access: {
-              create: () => false,
-              read: () => false,
-              update: () => false,
+                create: () => false,
+                read: () => false,
+                update: () => false,
             },
             type: 'text',
             admin: {
-              hidden: true,
+                hidden: true,
             },
-          },
-          {
+        },
+        {
             name: 'stripeId',
             access: {
-              create: () => false,
-              read: () => false,
-              update: () => false,
+                create: () => false,
+                read: () => false,
+                update: () => false,
             },
             type: 'text',
             admin: {
-              hidden: true,
+                hidden: true,
             },
-          },
-          {
+        },
+        {
             name: 'images',
             type: 'array',
             label: 'Product images',
@@ -103,17 +114,17 @@ export const Products: CollectionConfig = {
             maxRows: 4,
             required: true,
             labels: {
-              singular: 'Image',
-              plural: 'Images',
+                singular: 'Image',
+                plural: 'Images',
             },
             fields: [
-              {
-                name: 'image',
-                type: 'upload',
-                relationTo: 'media',
-                required: true,
-              },
+                {
+                    name: 'image',
+                    type: 'upload',
+                    relationTo: 'media',
+                    required: true,
+                },
             ],
-          },
+        },
     ]
 }
