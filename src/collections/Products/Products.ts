@@ -10,6 +10,7 @@ const addUser: BeforeChangeHook<Product> = async ({req, data}) => {
     return {...data, user: user.id}
 }
 
+
 export const Products: CollectionConfig = {
     slug: 'products',
     admin: {
